@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'frontend/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Register</h2>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+            {% if serializer.name.errors %}
+            <div class="error">{{ serializer.name.errors }}</div>
+            {% endif %}
+
+            <label for="phone">Mobile Number</label>
+            <input type="tel" id="phone" name="phone" required>
+            {% if serializer.phone.errors %}
+            <div class="error">{{ serializer.phone.errors }}</div>
+            {% endif %}
+
+            <label for="pin">4-Digit PIN</label>
+            <input type="password" id="pin" name="pin" maxlength="4" pattern="\d{4}"
+                title="Please enter exactly 4 digits" required>
+            {% if serializer.pin.errors %}
+            <div class="error">{{ serializer.pin.errors }}</div>
+            {% endif %}
+            {% if serializer.non_field_errors %}
+            <div class="error">{{ serializer.non_field_errors }}</div>
+            {% endif %}
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
